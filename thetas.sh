@@ -35,7 +35,8 @@ function print_help {
   printf "  snap         take a single still picture\n"
   printf "  getlast      download last captured image\n"
   printf "  list         list files on the device\n"
-
+  #new
+  printf " info          returns basic information about the camera and functionality it supports "
 
   printb "\nEXAMPLES\n"
   printf "\n"
@@ -131,6 +132,16 @@ function download_latest {
 }
 
 
+
+
+# Author: Omar Sherif
+#add info api call
+
+function get_info {
+  curl -s -X POST ${cam_addr}/osc/info
+
+}
+
 # Process commands
 cmd=$1
 
@@ -143,6 +154,10 @@ case $cmd in
     shift
     get_state | jq
     ;;
+    "info")
+      shift
+      get_info | jq
+      ;;
   "snap")
     shift
     take_picture "$@" | jq
